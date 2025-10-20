@@ -170,3 +170,18 @@ export async function initializeRegistry(): Promise<PresetRegistry> {
   await registry.initialize();
   return registry;
 }
+
+/**
+ * Loads a preset by name (initializes registry if needed)
+ */
+export async function loadPresetByName(
+  name: string
+): Promise<PresetDefinition> {
+  const registry = getRegistry();
+
+  if (!registry.isInitialized()) {
+    await registry.initialize();
+  }
+
+  return registry.get(name);
+}

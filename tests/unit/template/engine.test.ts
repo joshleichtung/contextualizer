@@ -17,8 +17,8 @@ import {
   loadAndRender,
   clearCache,
   getCacheStats,
-} from './engine.js';
-import { TemplateError } from './errors.js';
+} from '../../../src/template/engine.js';
+import { TemplateError } from '../../../src/template/errors.js';
 
 describe('Template Engine', () => {
   let tempDir: string;

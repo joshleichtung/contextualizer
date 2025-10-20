@@ -52,7 +52,6 @@ export type InitProjectParams = z.infer<typeof InitProjectSchema>;
 
 /**
  * Handler for init_project tool
- * Currently returns placeholder message - actual implementation in Epic 2
  */
 async function initProjectHandler(
   params: InitProjectParams
@@ -60,9 +59,17 @@ async function initProjectHandler(
   logger.info({ tool: 'init_project', params }, 'Tool invocation started');
 
   try {
-    let responseText = `✅ init_project tool registered successfully.\n\n`;
+    const { loadPresetByName } = await import('../preset/registry.js');
+    const { generateFiles, checkConflicts } = await import(
+      '../generation/file-generator.js'
+    );
+    const { initializeRenderer } = await import('../template/renderer.js');
+
+    let responseText = '';
 
     // Handle preset detection if requested
+    let selectedPreset = params.preset;
+
     if (params.options?.detectPreset) {
       logger.info('Attempting preset detection from package.json');
 
@@ -70,12 +77,12 @@ async function initProjectHandler(
 
       if (detection.found && detection.dependencies.length > 0) {
         const frameworks = detectFrameworks(detection.dependencies);
-        const recommendation = recommendPreset(frameworks, detection.dependencies);
-
-        logger.info(
-          { recommendation },
-          'Preset recommendation generated'
+        const recommendation = recommendPreset(
+          frameworks,
+          detection.dependencies
         );
+
+        logger.info({ recommendation }, 'Preset recommendation generated');
 
         responseText += `📦 **Package.json Detection**\n\n`;
         responseText += `Project: ${detection.projectName || 'Unknown'}\n`;
@@ -91,31 +98,132 @@ async function initProjectHandler(
         responseText += `\n${formatRecommendation(recommendation)}\n`;
 
         if (isRecommendationConfident(recommendation)) {
-          responseText += `\n✅ High confidence recommendation available.\n`;
-          responseText += `Consider using: \`preset: "${recommendation.preset}"\`\n\n`;
+          responseText += `\n✅ High confidence recommendation.\n`;
+          selectedPreset = recommendation.preset as any;
+          responseText += `Using recommended preset: ${selectedPreset}\n\n`;
         } else {
           responseText += `\n⚠️ Low confidence recommendation.\n`;
-          responseText += `Consider manual preset selection or use default.\n\n`;
+          responseText += `Using selected preset: ${selectedPreset}\n\n`;
         }
       } else {
         logger.info('Package.json not found or has no dependencies');
         responseText += `📦 **Package.json Detection**\n\n`;
         responseText += `No package.json found or no dependencies detected.\n`;
-        responseText += `Falling back to selected preset: ${params.preset}\n\n`;
+        responseText += `Using selected preset: ${selectedPreset}\n\n`;
       }
     }
 
-    responseText += `Implementation coming in Epic 2: Project Initialization\n\n`;
-    responseText += `This tool will:\n`;
-    responseText += `- Detect existing configuration\n`;
-    responseText += `- Generate files from templates based on preset: ${params.preset}\n`;
-    responseText += `- Create .claude/hooks/user-prompt-submit\n`;
-    responseText += `- Create .claude/CLAUDE.md\n`;
-    responseText += `- Create .contextualizer/config.yaml`;
+    // Load preset
+    logger.info({ preset: selectedPreset }, 'Loading preset');
+    const preset = await loadPresetByName(selectedPreset);
 
-    if (params.options?.skipConflictCheck) {
-      responseText += `\n- Skip conflict checks as requested`;
+    if (!preset) {
+      throw new Error(`Preset not found: ${selectedPreset}`);
     }
+
+    responseText += `🎯 **Initializing Project**\n\n`;
+    responseText += `Preset: ${preset.name}\n`;
+    responseText += `Description: ${preset.description}\n`;
+    responseText += `Estimated time: ${preset.installationTime}\n\n`;
+
+    // Check for conflicts unless skipped
+    if (!params.options?.skipConflictCheck) {
+      const conflicts = await checkConflicts(preset);
+
+      if (conflicts.length > 0) {
+        responseText += `⚠️ **Conflicting Files Detected**\n\n`;
+        responseText += `The following files already exist:\n`;
+        conflicts.forEach((file) => {
+          responseText += `- ${file}\n`;
+        });
+        responseText += `\nUse \`skipConflictCheck: true\` to force overwrite.\n`;
+
+        const result: ToolResult = {
+          content: [
+            {
+              type: 'text',
+              text: responseText,
+            },
+          ],
+          isError: true,
+        };
+
+        return result;
+      }
+    }
+
+    // Initialize template renderer
+    initializeRenderer();
+
+    // Detect project name
+    const detection = await detectPackageJson();
+    const projectName = detection.projectName || 'my-project';
+
+    // Generate files
+    logger.info({ preset: selectedPreset }, 'Generating files');
+
+    const generationResult = await generateFiles(preset, {
+      projectName,
+      forceOverwrite: params.options?.skipConflictCheck || false,
+      skipGitCommit: false,
+      skipBackup: false,
+    });
+
+    if (!generationResult.success) {
+      responseText += `❌ **File Generation Failed**\n\n`;
+      responseText += `Error: ${generationResult.error}\n`;
+
+      if (generationResult.backup) {
+        responseText += `\nBackup created at: ${generationResult.backup.backupDir}\n`;
+        responseText += `Rollback was attempted.\n`;
+      }
+
+      const result: ToolResult = {
+        content: [
+          {
+            type: 'text',
+            text: responseText,
+          },
+        ],
+        isError: true,
+      };
+
+      return result;
+    }
+
+    // Success!
+    responseText += `✅ **Initialization Complete**\n\n`;
+    responseText += `Generated ${generationResult.files.length} files:\n\n`;
+
+    // Group files by type
+    const filesByType: Record<string, string[]> = {};
+    generationResult.files.forEach((file) => {
+      if (!filesByType[file.type]) {
+        filesByType[file.type] = [];
+      }
+      filesByType[file.type].push(file.path);
+    });
+
+    Object.keys(filesByType).forEach((type) => {
+      responseText += `**${type}**:\n`;
+      filesByType[type].forEach((path) => {
+        responseText += `- ${path}\n`;
+      });
+      responseText += `\n`;
+    });
+
+    if (generationResult.committed) {
+      responseText += `✅ Changes committed to git\n`;
+    }
+
+    if (generationResult.backup) {
+      responseText += `📦 Backup created at: ${generationResult.backup.backupDir}\n`;
+    }
+
+    responseText += `\n**Next Steps**:\n`;
+    responseText += `1. Review generated files in .claude/ directory\n`;
+    responseText += `2. Run \`configure-hooks\` tool to activate hooks\n`;
+    responseText += `3. Customize CLAUDE.md to your project needs\n`;
 
     const result: ToolResult = {
       content: [
@@ -127,11 +235,25 @@ async function initProjectHandler(
       isError: false,
     };
 
-    logger.info({ tool: 'init_project' }, 'Tool completed successfully');
+    logger.info(
+      { tool: 'init_project', filesGenerated: generationResult.files.length },
+      'Tool completed successfully'
+    );
     return result;
   } catch (error) {
     logger.error({ tool: 'init_project', error }, 'Tool execution failed');
-    throw error;
+
+    const result: ToolResult = {
+      content: [
+        {
+          type: 'text',
+          text: `❌ **Initialization Failed**\n\nError: ${error instanceof Error ? error.message : String(error)}`,
+        },
+      ],
+      isError: true,
+    };
+
+    return result;
   }
 }
 

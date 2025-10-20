@@ -37,8 +37,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
+    "@types/handlebars": "^4.0.40",
     "@types/js-yaml": "^4.0.9",
     "fs-extra": "^11.3.2",
+    "handlebars": "^4.7.8",
     "js-yaml": "^4.1.0",
     "pino": "^8.21.0",
     "simple-git": "^3.28.0"
