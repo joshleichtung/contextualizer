@@ -31,11 +31,11 @@ jobs:
       - name: Run typecheck
         run: npm run typecheck
 
-      - name: Run tests
-        run: npm test
-
       - name: Run build
         run: npm run build
+
+      - name: Run tests
+        run: npm test
 
       - name: Generate coverage report
         if: matrix.node-version == 20
