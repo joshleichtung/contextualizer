@@ -43,10 +43,10 @@ describe('Tool Registry Integration', () => {
     }));
 
     expect(Array.isArray(mappedTools)).toBe(true);
-    expect(mappedTools).toHaveLength(0); // Empty in Story 1.1
+    expect(mappedTools).toHaveLength(5); // Story 1.2 implements 5 tools
   });
 
-  it('handles empty tool list', () => {
+  it('includes all 5 tools in list', () => {
     const response = {
       tools: TOOLS.map((t) => ({
         name: t.name,
@@ -55,7 +55,13 @@ describe('Tool Registry Integration', () => {
       })),
     };
 
-    expect(response.tools).toHaveLength(0);
+    expect(response.tools).toHaveLength(5);
+    const toolNames = response.tools.map((t) => t.name);
+    expect(toolNames).toContain('init_project');
+    expect(toolNames).toContain('run_doctor');
+    expect(toolNames).toContain('configure_hooks');
+    expect(toolNames).toContain('manage_memory');
+    expect(toolNames).toContain('get_config');
   });
 });
 

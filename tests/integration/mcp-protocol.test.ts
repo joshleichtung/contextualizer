@@ -103,7 +103,7 @@ describe('MCP Protocol Integration', () => {
     });
   });
 
-  it('returns empty tools list', () => {
+  it('returns 5 tools in list', () => {
     return new Promise<void>((resolve, reject) => {
       server = spawn('node', ['./dist/server.js']);
 
@@ -122,7 +122,7 @@ describe('MCP Protocol Integration', () => {
                 expect(response.result).toBeDefined();
                 expect(response.result.tools).toBeDefined();
                 expect(Array.isArray(response.result.tools)).toBe(true);
-                expect(response.result.tools).toHaveLength(0); // Empty in Story 1.1
+                expect(response.result.tools).toHaveLength(5); // Story 1.2 implements 5 tools
                 resolve();
                 return;
               }

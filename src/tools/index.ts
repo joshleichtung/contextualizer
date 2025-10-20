@@ -2,13 +2,24 @@
  * Tool Registry
  *
  * This file exports all available MCP tools.
- * Tools will be registered here in future stories.
+ * All tools are registered in the TOOLS array for MCP server discovery.
  */
 
 import type { MCPTool } from '../types/mcp.js';
+import { initProject } from './init-project.js';
+import { runDoctor } from './run-doctor.js';
+import { configureHooks } from './configure-hooks.js';
+import { manageMemory } from './manage-memory.js';
+import { getConfig } from './get-config.js';
 
 /**
  * Array of all registered tools
- * Currently empty - tools will be added in Story 1.2+
+ * Story 1.2: 5 core tools with placeholder implementations
  */
-export const TOOLS: MCPTool[] = [];
+export const TOOLS: MCPTool[] = [
+  initProject,
+  runDoctor,
+  configureHooks,
+  manageMemory,
+  getConfig,
+];

@@ -16,10 +16,9 @@ describe('Registries', () => {
       expect(Array.isArray(TOOLS)).toBe(true);
     });
 
-    it('starts empty (skeleton implementation)', () => {
-      // Story 1.1 only sets up infrastructure
-      // Tools will be added in Story 1.2+
-      expect(TOOLS).toHaveLength(0);
+    it('has 5 tools registered (Story 1.2)', () => {
+      // Story 1.2 implements 5 core tools
+      expect(TOOLS).toHaveLength(5);
     });
   });
 

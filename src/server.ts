@@ -68,7 +68,18 @@ async function main(): Promise<void> {
     }
 
     try {
-      const result = await tool.handler(request.params.arguments);
+      // Validate arguments against tool's inputSchema (Zod schema)
+      const validationResult = (tool.inputSchema as any).safeParse(
+        request.params.arguments || {}
+      );
+
+      if (!validationResult.success) {
+        const error = `Invalid parameters: ${validationResult.error.message}`;
+        logger.error({ tool: toolName, error }, 'Parameter validation failed');
+        throw new Error(error);
+      }
+
+      const result = await tool.handler(validationResult.data);
       logger.info({ tool: toolName }, 'Tool invocation completed');
       // Return in MCP SDK expected format
       return {
