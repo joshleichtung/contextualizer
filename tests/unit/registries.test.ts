@@ -47,9 +47,16 @@ describe('Registries', () => {
       expect(Array.isArray(PROMPTS)).toBe(true);
     });
 
-    it('starts empty (skeleton implementation)', () => {
-      // Prompts will be added in future stories
-      expect(PROMPTS).toHaveLength(0);
+    it('has 3 prompts registered (Story 1.4)', () => {
+      // Story 1.4 implements 3 prompts
+      expect(PROMPTS).toHaveLength(3);
+    });
+
+    it('includes setup_wizard, health_check, and optimize_context prompts', () => {
+      const names = PROMPTS.map((p) => p.name);
+      expect(names).toContain('setup_wizard');
+      expect(names).toContain('health_check');
+      expect(names).toContain('optimize_context');
     });
   });
 });

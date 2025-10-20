@@ -2,13 +2,18 @@
  * Prompt Registry
  *
  * This file exports all available MCP prompts.
- * Prompts will be registered here in future stories.
  */
 
 import type { MCPPrompt } from '../types/mcp.js';
+import { setupWizardPrompt } from './setup-wizard.js';
+import { healthCheckPrompt } from './health-check.js';
+import { optimizeContextPrompt } from './optimize-context.js';
 
 /**
  * Array of all registered prompts
- * Currently empty - prompts will be added in Story 1.2+
  */
-export const PROMPTS: MCPPrompt[] = [];
+export const PROMPTS: MCPPrompt[] = [
+  setupWizardPrompt,
+  healthCheckPrompt,
+  optimizeContextPrompt,
+];

@@ -105,10 +105,11 @@ describe('Prompt Registry Integration', () => {
     }));
 
     expect(Array.isArray(mappedPrompts)).toBe(true);
-    expect(mappedPrompts).toHaveLength(0); // Empty in Story 1.1
+    expect(mappedPrompts).toHaveLength(3); // 3 prompts in Story 1.4
+    expect(mappedPrompts.every((p) => p.name && p.description)).toBe(true);
   });
 
-  it('handles empty prompt list', () => {
+  it('includes all registered prompts', () => {
     const response = {
       prompts: PROMPTS.map((p) => ({
         name: p.name,
@@ -117,7 +118,11 @@ describe('Prompt Registry Integration', () => {
       })),
     };
 
-    expect(response.prompts).toHaveLength(0);
+    expect(response.prompts).toHaveLength(3);
+    const names = response.prompts.map((p) => p.name);
+    expect(names).toContain('setup_wizard');
+    expect(names).toContain('health_check');
+    expect(names).toContain('optimize_context');
   });
 });
 

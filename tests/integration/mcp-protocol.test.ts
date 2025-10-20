@@ -230,7 +230,7 @@ describe('MCP Protocol Integration', () => {
     });
   });
 
-  it('returns empty prompts list', () => {
+  it('returns all registered prompts', () => {
     return new Promise<void>((resolve, reject) => {
       server = spawn('node', ['./dist/server.js']);
 
@@ -249,7 +249,7 @@ describe('MCP Protocol Integration', () => {
                 expect(response.result).toBeDefined();
                 expect(response.result.prompts).toBeDefined();
                 expect(Array.isArray(response.result.prompts)).toBe(true);
-                expect(response.result.prompts).toHaveLength(0); // Empty in Story 1.1
+                expect(response.result.prompts).toHaveLength(3); // 3 prompts in Story 1.4
                 resolve();
                 return;
               }
