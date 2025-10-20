@@ -11,7 +11,6 @@ import {
   DetectedFramework,
   FrameworkType,
 } from './package-detector.js';
-import type { PresetDefinition } from '../config/presets.js';
 
 /**
  * Preset recommendation with confidence score

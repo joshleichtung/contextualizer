@@ -1,0 +1,49 @@
+# Source files
+src/
+tests/
+scripts/
+
+# Configuration files
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+.github/
+.gitignore
+
+# Development files
+*.test.ts
+*.spec.ts
+__tests__/
+coverage/
+.nyc_output/
+
+# Documentation (development-specific)
+docs/
+DOGFOODING_STRATEGY.md
+FEEDBACK_SYSTEM.md
+PROJECT_STATUS.md
+
+# Build artifacts
+*.tsbuildinfo
+.contextualizer/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+*.tmp
+.tmp/

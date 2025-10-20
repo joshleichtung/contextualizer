@@ -4,9 +4,9 @@ An MCP (Model Context Protocol) server for AI-optimized project setup and manage
 
 ## Status
 
-**Current Phase**: Story 1.1 - MCP Server Setup (COMPLETE)
+**Current Phase**: Epic 1 COMPLETE - Full MCP Server with CI/CD
 
-This is a skeleton implementation providing the MCP server foundation. Tools, resources, and prompts will be added in subsequent stories.
+Production-ready MCP server with comprehensive tool suite, resource providers, prompt templates, and automated CI/CD pipeline.
 
 ## Requirements
 
@@ -15,8 +15,19 @@ This is a skeleton implementation providing the MCP server foundation. Tools, re
 
 ## Installation
 
+### From NPM (when published)
+
 ```bash
+npm install -g contextualizer
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yourusername/contextualizer.git
+cd contextualizer
 npm install
+npm run build
 ```
 
 ## Development
@@ -135,26 +146,48 @@ To use this server with Claude Desktop, add to your Claude configuration:
 }
 ```
 
-## Development Status
+## Features
 
-### Story 1.1 - MCP Server Setup ✅
+### MCP Tools (Story 1.2) ✅
 
-- [x] TypeScript project initialized
-- [x] MCP SDK integrated with stdio transport
-- [x] Server lifecycle implemented (startup, shutdown)
-- [x] Logging infrastructure operational
-- [x] Project structure established
-- [x] Build system configured (tsup)
-- [x] Testing infrastructure (Vitest)
-- [x] Unit tests (44 tests passing)
-- [x] Integration tests (MCP protocol validated)
-- [x] 100% code coverage achieved
+- **init_project**: Initialize new projects with Git, hooks, and context monitoring
+- **run_doctor**: Comprehensive project health diagnostics
+- **read_context**: Read `.contextualizer/context.json` configuration
+- **update_context**: Modify context monitoring settings
+- **install_hooks**: Set up Git hooks for development workflow
+- **uninstall_hooks**: Remove Git hooks cleanly
 
-### Next Stories
+### MCP Resources (Story 1.3) ✅
 
-- **Story 1.2**: Tool implementations (init_project, run_doctor, etc.)
-- **Story 1.3**: Resource providers (config, diagnostics, presets)
-- **Story 1.4**: Prompt templates (setup_wizard, health_check)
+- **config**: Current project configuration and settings
+- **diagnostics**: Real-time project health diagnostics
+- **presets**: Available project templates and presets
+
+### MCP Prompts (Story 1.4) ✅
+
+- **setup_wizard**: Interactive project setup guidance
+- **health_check**: Project health analysis and recommendations
+
+### Documentation (Story 1.5) ✅
+
+- **Architecture Guide**: System design and component specifications
+- **User Guide**: End-user documentation and workflows
+- **Developer Guide**: Contributing and development instructions
+- **API Documentation**: Complete MCP protocol implementation
+
+### Testing Infrastructure (Story 1.6) ✅
+
+- **555 Tests**: Comprehensive test suite (481 unit + 74 integration)
+- **100% Coverage**: All testable code paths validated
+- **Integration Tests**: Full MCP protocol and tool validation
+- **Performance Tests**: NFR compliance verification
+
+### CI/CD Pipeline (Story 1.7) ✅
+
+- **GitHub Actions CI**: Matrix testing on Node 18, 20, 22
+- **Automated Publishing**: NPM releases with provenance
+- **Code Coverage**: Codecov integration
+- **Release Automation**: Changelog generation and GitHub releases
 
 ## Performance
 
