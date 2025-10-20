@@ -30,9 +30,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "pino": "^8.21.0"
+    "fs-extra": "^11.3.2",
+    "pino": "^8.21.0",
+    "simple-git": "^3.28.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^18.19.68",
     "@vitest/coverage-v8": "^1.6.0",
     "tsup": "^8.3.5",
