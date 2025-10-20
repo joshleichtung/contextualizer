@@ -28,9 +28,16 @@ describe('Registries', () => {
       expect(Array.isArray(RESOURCES)).toBe(true);
     });
 
-    it('starts empty (skeleton implementation)', () => {
-      // Resources will be added in future stories
-      expect(RESOURCES).toHaveLength(0);
+    it('has 3 resources registered (Story 1.3)', () => {
+      // Story 1.3 implements 3 resources
+      expect(RESOURCES).toHaveLength(3);
+    });
+
+    it('includes config, diagnostics, and presets resources', () => {
+      const uris = RESOURCES.map((r) => r.uri);
+      expect(uris).toContain('contextualizer://config');
+      expect(uris).toContain('contextualizer://diagnostics');
+      expect(uris).toContain('contextualizer://presets');
     });
   });
 

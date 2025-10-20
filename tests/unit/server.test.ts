@@ -75,10 +75,10 @@ describe('Resource Registry Integration', () => {
     }));
 
     expect(Array.isArray(mappedResources)).toBe(true);
-    expect(mappedResources).toHaveLength(0); // Empty in Story 1.1
+    expect(mappedResources).toHaveLength(3); // Story 1.3 implements 3 resources
   });
 
-  it('handles empty resource list', () => {
+  it('includes all 3 resources in list', () => {
     const response = {
       resources: RESOURCES.map((r) => ({
         uri: r.uri,
@@ -88,7 +88,11 @@ describe('Resource Registry Integration', () => {
       })),
     };
 
-    expect(response.resources).toHaveLength(0);
+    expect(response.resources).toHaveLength(3);
+    const uris = response.resources.map((r) => r.uri);
+    expect(uris).toContain('contextualizer://config');
+    expect(uris).toContain('contextualizer://diagnostics');
+    expect(uris).toContain('contextualizer://presets');
   });
 });
 

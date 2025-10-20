@@ -2,13 +2,24 @@
  * Resource Registry
  *
  * This file exports all available MCP resources.
- * Resources will be registered here in future stories.
+ * Resources provide read-only data access to Claude via the MCP protocol.
  */
 
 import type { MCPResource } from '../types/mcp.js';
+import { configResource } from './config-resource.js';
+import { diagnosticsResource } from './diagnostics-resource.js';
+import { presetsResource } from './presets-resource.js';
 
 /**
  * Array of all registered resources
- * Currently empty - resources will be added in Story 1.2+
+ *
+ * Resources:
+ * - contextualizer://config - Current configuration (placeholder)
+ * - contextualizer://diagnostics - Latest diagnostic report (placeholder)
+ * - contextualizer://presets - Available preset definitions (full implementation)
  */
-export const RESOURCES: MCPResource[] = [];
+export const RESOURCES: MCPResource[] = [
+  configResource,
+  diagnosticsResource,
+  presetsResource,
+];

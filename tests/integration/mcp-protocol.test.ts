@@ -186,7 +186,7 @@ describe('MCP Protocol Integration', () => {
                 expect(response.result).toBeDefined();
                 expect(response.result.resources).toBeDefined();
                 expect(Array.isArray(response.result.resources)).toBe(true);
-                expect(response.result.resources).toHaveLength(0); // Empty in Story 1.1
+                expect(response.result.resources).toHaveLength(3); // Story 1.3 implements 3 resources
                 resolve();
                 return;
               }
