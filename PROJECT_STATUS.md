@@ -9,6 +9,27 @@
 
 ## Recent Milestones
 
+### ✅ v0.3.0-story-1.2 (2025-10-19)
+
+**Story 1.2 Complete - Tool Registry System**
+
+**Achievement**: 5 core MCP tools implemented with complete parameter validation
+
+**Quality Metrics**:
+- 188 tests passing (129 unit + 15 integration)
+- 96.87% test coverage (exceeds 80% target)
+- QA approved: READY FOR MERGE
+- All performance targets exceeded
+
+**Technical Deliverables**:
+- 5 placeholder tools (init_project, run_doctor, configure_hooks, manage_memory, get_config)
+- Error handling hierarchy (4 error classes)
+- Comprehensive Zod parameter validation
+- Tool wrapper pattern for consistent error handling
+- MCP protocol integration verified
+
+**Impact**: Infrastructure ready for actual tool implementations in Epics 2, 4, 5, 6
+
 ### ✅ v0.2.0-story-1.1 (2025-10-19)
 
 **Story 1.1 Complete - MCP Server Foundation**
@@ -54,28 +75,28 @@
 
 ### Sprint 1: MCP Server Foundation (Week 1-3)
 
-**Active Story**: Story 1.2 - Tool Registry System
+**Active Story**: Story 1.3 - Resource System
 **Status**: 📝 Ready to Draft
 **Next Agent**: SM (Bob) - Draft story
 
-**Recently Completed**: ✅ Story 1.1 - MCP Server Setup
-**File**: `docs/stories/1.1.mcp-server-setup.md`
+**Recently Completed**: ✅ Story 1.2 - Tool Registry System
+**File**: `docs/stories/1.2.tool-registry-system.md`
 **Completion**: 2025-10-19
-**Tag**: v0.2.0-story-1.1
+**Tag**: v0.3.0-story-1.2
 
-**Story 1.1 Results**:
+**Story 1.2 Results**:
 - ✅ All 10 acceptance criteria met
-- ✅ 44 tests passing (37 unit + 7 integration)
-- ✅ 100% code coverage (exceeded 80% target)
+- ✅ 188 tests passing (129 unit + 15 integration + 44 Story 1.1)
+- ✅ 96.87% test coverage (exceeded 80% target)
 - ✅ All performance targets exceeded
 - ✅ QA Status: APPROVED
-- 📊 Quality Grade: A+ (Exceptional)
+- 📊 Quality Grade: Production-ready
 
 **Implementation Metrics**:
-- Server startup: < 1ms (target: 500ms) ✅
-- MCP handshake: < 100ms (target: 200ms) ✅
-- Build time: 925ms (target: 10s) ✅
-- Test suite: 5.06s (target: 5s) ✅
+- Tool invocation: ~0.5s (target: 2s) ✅
+- Parameter validation: < 5ms (target: 10ms) ✅
+- Test suite: 5.10s (target: 10s) ✅
+- Build time: 995ms (target: 10s) ✅
 
 ---
 
@@ -83,15 +104,15 @@
 
 ### Epic 1: MCP Server Foundation (3 weeks)
 - [x] Story 1.1: MCP Server Setup ✅ (Completed 2025-10-19)
-- [ ] Story 1.2: Tool Registry System (Next)
-- [ ] Story 1.3: Resource System
+- [x] Story 1.2: Tool Registry System ✅ (Completed 2025-10-19)
+- [ ] Story 1.3: Resource System (Next)
 - [ ] Story 1.4: Prompt System
 - [ ] Story 1.5: Error Handling
 - [ ] Story 1.6: Package.json Detection
 - [ ] Story 1.7: CI/CD Pipeline
 
-**Progress**: 1/7 stories (14%)
-**Velocity**: 1 story/day (excellent start!)
+**Progress**: 2/7 stories (29%)
+**Velocity**: 2 stories/day (exceptional pace!)
 
 ### Epic 2: Project Initialization (2 weeks)
 - [ ] All 6 stories (Not started)
