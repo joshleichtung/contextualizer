@@ -1,0 +1,63 @@
+# Web Fullstack Preset Configuration
+#
+# Comprehensive setup for full-stack web development with Next.js, React, TypeScript.
+# Includes aggressive context monitoring, pre-commit hooks, and extensive tooling.
+
+name: web-fullstack
+description: Full-stack web development with Next.js, React, TypeScript
+installationTime: ~2 minutes
+
+contextMonitoring:
+  warningThreshold: 75
+  criticalThreshold: 90
+  boundaryDetection: aggressive
+
+hooks:
+  preCommit:
+    enabled: true
+    strictness: balanced
+    checks:
+      - name: typecheck
+        failOn: errors
+      - name: lint
+        failOn: errors
+      - name: test
+        failOn: errors
+
+memory:
+  sections:
+    - title: Tech Stack
+      content: |
+        # Tech Stack
+
+        - Next.js
+        - React
+        - TypeScript
+        - Tailwind CSS
+
+    - title: Architecture Patterns
+      content: |
+        # Architecture Patterns
+
+        - Component-driven development
+        - Server/client component separation
+
+  context7Libraries:
+    - /vercel/next.js
+    - /facebook/react
+    - /microsoft/typescript
+
+skills:
+  - nextjs-expert
+  - react-expert
+  - typescript-expert
+
+subagents:
+  - code-reviewer
+  - test-architect
+  - doc-writer
+
+codingStandards:
+  - typescript-strict
+  - react-best-practices
+  - tailwind-utility-first

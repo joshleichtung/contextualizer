@@ -1,0 +1,25 @@
+# Hackathon Preset Configuration
+#
+# Fast iteration mode for hackathons and prototypes.
+# Minimal constraints, conservative context monitoring, no pre-commit hooks.
+
+name: hackathon
+description: Fast iteration mode for hackathons and prototypes
+installationTime: ~15 seconds
+
+contextMonitoring:
+  warningThreshold: 90
+  criticalThreshold: 98
+  boundaryDetection: conservative
+
+hooks:
+  preCommit:
+    enabled: false
+
+memory:
+  sections:
+    - title: Project Goals
+      content: |
+        # Project Goals
+
+        Rapid prototyping and experimentation.

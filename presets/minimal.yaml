@@ -1,0 +1,25 @@
+# Minimal Preset Configuration
+#
+# Basic context monitoring with minimal overhead.
+# Ideal for small projects or when you want minimal tooling.
+
+name: minimal
+description: Minimal preset with basic context monitoring
+installationTime: ~30 seconds
+
+contextMonitoring:
+  warningThreshold: 80
+  criticalThreshold: 95
+  boundaryDetection: balanced
+
+hooks:
+  preCommit:
+    enabled: false
+
+memory:
+  sections:
+    - title: Project Context
+      content: |
+        # Project Context
+
+        Project-specific information.

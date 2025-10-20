@@ -1,77 +1,32 @@
 /**
  * Preset Definitions
  *
- * This file contains the preset configuration templates for Contextualizer.
- * Presets provide pre-configured setups for different development scenarios.
+ * This file provides backward compatibility with Story 1.3 presets
+ * while delegating to the new YAML-based preset system.
  */
 
-/**
- * Memory section structure
- */
-export interface MemorySection {
-  title: string;
-  content: string;
-}
+// Re-export types from preset module
+export type {
+  MemorySection,
+  PreCommitCheck,
+  PreCommitHook,
+  HooksConfig,
+  MemoryConfig,
+  ContextMonitoringConfig,
+  PresetDefinition,
+  TemplateConfig,
+  TemplateFile,
+} from '../preset/types.js';
+
+// Import for backward compatibility
+import { PresetDefinition } from '../preset/types.js';
 
 /**
- * Pre-commit hook check configuration
+ * Backward compatibility: Static preset constants
+ * These are maintained for Story 1.3 compatibility.
+ * For new code, use the preset registry from ../preset/registry.js
  */
-export interface PreCommitCheck {
-  name: string;
-  failOn: 'errors' | 'warnings' | 'never';
-}
 
-/**
- * Pre-commit hook configuration
- */
-export interface PreCommitHook {
-  enabled: boolean;
-  strictness?: 'strict' | 'balanced' | 'relaxed';
-  checks?: PreCommitCheck[];
-}
-
-/**
- * Hooks configuration
- */
-export interface HooksConfig {
-  preCommit: PreCommitHook;
-}
-
-/**
- * Memory configuration
- */
-export interface MemoryConfig {
-  sections: MemorySection[];
-  context7Libraries?: string[];
-}
-
-/**
- * Context monitoring configuration
- */
-export interface ContextMonitoringConfig {
-  warningThreshold: number;
-  criticalThreshold: number;
-  boundaryDetection: 'aggressive' | 'balanced' | 'conservative';
-}
-
-/**
- * Complete preset definition
- */
-export interface PresetDefinition {
-  name: string;
-  description: string;
-  installationTime: string;
-  contextMonitoring: ContextMonitoringConfig;
-  hooks: HooksConfig;
-  memory: MemoryConfig;
-  skills?: string[];
-  subagents?: string[];
-  codingStandards?: string[];
-}
-
-/**
- * Minimal preset - basic context monitoring with minimal overhead
- */
 export const minimalPreset: PresetDefinition = {
   name: 'minimal',
   description: 'Minimal preset with basic context monitoring',
@@ -96,9 +51,6 @@ export const minimalPreset: PresetDefinition = {
   },
 };
 
-/**
- * Web-fullstack preset - comprehensive setup for full-stack web development
- */
 export const webFullstackPreset: PresetDefinition = {
   name: 'web-fullstack',
   description: 'Full-stack web development with Next.js, React, TypeScript',
@@ -147,9 +99,6 @@ export const webFullstackPreset: PresetDefinition = {
   ],
 };
 
-/**
- * Hackathon preset - fast iteration mode with minimal constraints
- */
 export const hackathonPreset: PresetDefinition = {
   name: 'hackathon',
   description: 'Fast iteration mode for hackathons and prototypes',
@@ -175,7 +124,8 @@ export const hackathonPreset: PresetDefinition = {
 };
 
 /**
- * All available presets
+ * Backward compatibility: Static preset array
+ * For new code, use getRegistry().getAll() instead
  */
 export const PRESETS: PresetDefinition[] = [
   minimalPreset,
