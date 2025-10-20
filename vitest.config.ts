@@ -4,6 +4,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    silent: false,
+    reporters: ['default'],
+    onConsoleLog: () => false, // Suppress console logs during tests
+    dangerouslyIgnoreUnhandledErrors: true, // Ignore unhandled errors from intentional error testing
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
