@@ -7,6 +7,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import * as crypto from 'crypto';
 import { ensureDirWithRetry, writeFileWithRetry } from '../utils/fs-resilient.js';
 import { logger } from '../utils/logger.js';
 
@@ -72,9 +73,24 @@ export async function backupFile(
       return '';
     }
 
-    // Create relative path for backup
-    const relativePath = path.relative(process.cwd(), filePath);
-    const backupPath = path.join(config.backupDir, relativePath);
+    // Create backup path preserving directory structure
+    // For files inside project: use relative path
+    // For files outside project: use hash of directory + filename to avoid path conflicts
+    const cwd = process.cwd();
+    const absolutePath = path.resolve(filePath);
+
+    let backupPath: string;
+    if (absolutePath.startsWith(cwd)) {
+      // File is inside project directory - use relative path
+      const relativePath = path.relative(cwd, absolutePath);
+      backupPath = path.join(config.backupDir, relativePath);
+    } else {
+      // File is outside project directory - use hash of directory to avoid conflicts
+      const dirPath = path.dirname(absolutePath);
+      const dirHash = crypto.createHash('md5').update(dirPath).digest('hex').substring(0, 8);
+      const fileName = path.basename(absolutePath);
+      backupPath = path.join(config.backupDir, 'external', dirHash, fileName);
+    }
 
     // Ensure backup directory exists
     await ensureDirWithRetry(path.dirname(backupPath));
